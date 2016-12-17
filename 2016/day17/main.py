@@ -16,13 +16,13 @@ def get_moves(passcode, pos, path):
     (x, y) = pos
     moves = set()
     if d[0] and y > 0:
-        moves.add(((pos[0], pos[1] - 1), path + 'U'))
+        moves.add(((x, y - 1), path + 'U'))
     if d[1] and y < 3:
-        moves.add(((pos[0], pos[1] + 1), path + 'D'))
+        moves.add(((x, y + 1), path + 'D'))
     if d[2] and x > 0:
-        moves.add(((pos[0] - 1, pos[1]), path + 'L'))
+        moves.add(((x - 1, y), path + 'L'))
     if d[3] and x < 3:
-        moves.add(((pos[0] + 1, pos[1]), path + 'R'))
+        moves.add(((x + 1, y), path + 'R'))
     return moves
 
 
