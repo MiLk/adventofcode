@@ -8,8 +8,7 @@ def gethash(s):
 
 
 def doors(passcode, path):
-    h = gethash(passcode + path)
-    return tuple(map(lambda c: c in ['b', 'c', 'd', 'e', 'f'], h))
+    return tuple(map(lambda c: c > 'a', gethash(passcode + path)))
 
 
 def get_moves(passcode, pos, path):
@@ -17,42 +16,26 @@ def get_moves(passcode, pos, path):
     (x, y) = pos
     moves = set()
     if d[0] and y > 0:
-        moves.add('U')
+        moves.add(((pos[0], pos[1] - 1), path + 'U'))
     if d[1] and y < 3:
-        moves.add('D')
+        moves.add(((pos[0], pos[1] + 1), path + 'D'))
     if d[2] and x > 0:
-        moves.add('L')
+        moves.add(((pos[0] - 1, pos[1]), path + 'L'))
     if d[3] and x < 3:
-        moves.add('R')
+        moves.add(((pos[0] + 1, pos[1]), path + 'R'))
     return moves
 
 
 def main():
     passcode = sys.argv[1]
-    goal = (3, 3)
-
-    path = ''
-    pos = (0, 0)
-
     paths = []
-    queue = deque()
-    queue.append((pos, path))
+    queue = deque([((0, 0), '')])
     while queue:
         pos, path = queue.popleft()
-        if pos == goal:
+        if pos == (3, 3):
             paths.append(path)
             continue
-        for move in get_moves(passcode, pos, path):
-            np = None
-            if move == 'U':
-                np = (pos[0], pos[1] - 1)
-            elif move == 'D':
-                np = (pos[0], pos[1] + 1)
-            elif move == 'L':
-                np = (pos[0] - 1, pos[1])
-            elif move == 'R':
-                np = (pos[0] + 1, pos[1])
-            queue.append((np, path + move))
+        queue.extend(get_moves(passcode, pos, path))
 
     print('Part 1: %s' % paths[0])
     print('Part 2: %d' % len(paths[-1]))
