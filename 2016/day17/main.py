@@ -1,12 +1,11 @@
 import sys
-import re
-import itertools
 import hashlib
 from collections import deque
 
 
 def gethash(s):
     return hashlib.md5(s).hexdigest()[:4]
+
 
 def doors(passcode, path):
     h = gethash(passcode + path)
@@ -30,8 +29,7 @@ def get_moves(passcode, pos, path):
 
 def main():
     passcode = sys.argv[1]
-    start = (0, 0)
-    obj = (3, 3)
+    goal = (3, 3)
 
     path = ''
     pos = (0, 0)
@@ -41,7 +39,7 @@ def main():
     queue.append((pos, path))
     while queue:
         pos, path = queue.popleft()
-        if pos == obj:
+        if pos == goal:
             paths.append(path)
             continue
         for move in get_moves(passcode, pos, path):
