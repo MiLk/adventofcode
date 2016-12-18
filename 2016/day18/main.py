@@ -17,9 +17,9 @@ def get_tile(pos, previous):
 
 def main():
     row = readinput(sys.argv[1])[0].strip()
-    safes, length = row.count('.'), len(row)
+    safes, r = row.count('.'), xrange(0, len(row))
     for i in xrange(1, int(sys.argv[2])):
-        row = map(lambda j: get_tile(j, row), xrange(0, length))
+        row = map(lambda j: get_tile(j, row), r)
         safes += row.count('.')
 
     print('Safe tiles: %d' % safes)
