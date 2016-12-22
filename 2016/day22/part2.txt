@@ -1,0 +1,15 @@
+Empty space is in (20, 6)
+There is a wall of big disks between (15, 2) and (36, 2)
+
+Move the space from (20, 6)  to:
+* (20, 3)
+* (14, 3)
+* (14, 1)
+* (35, 1)
+* (35, 0)
+This is 3 + 6 + 2 + 21 + 1 = 33  movements.
+Move the Goal into the empty space (+1 movement).
+35 times:
+ * move the space in front of the goal (+4 movements)
+ * move the goal into the space (+1 movement)
+=> 33 + 1 + 35 * 5 = 209
