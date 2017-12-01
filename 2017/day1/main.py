@@ -8,15 +8,11 @@ import sys
 
 def get_sum(digits, offset):
     l = len(digits)
-    match = []
-
-    i = 0
-    while i < l:
-        if digits[i % l] == digits[(i + offset) % l]:
-            match.append(digits[i % l])
-        i += 1
-
-    return sum(match)
+    return sum([
+        digits[i % l]
+        for i in xrange(0, l)
+        if digits[i % l] == digits[(i + offset) % l]
+    ])
 
 
 def main():
