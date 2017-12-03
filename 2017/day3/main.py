@@ -3,6 +3,8 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from builtins import range
+
 import math
 import sys
 
@@ -16,39 +18,58 @@ def read_input(path):
 
 
 def find_steps(n):
+    """Return the number of steps to reach cell 1
+
+    >>> find_steps(1)
+    0
+    >>> find_steps(12)
+    3
+    >>> find_steps(16)
+    3
+    >>> find_steps(18)
+    3
+    >>> find_steps(22)
+    3
+    >>> find_steps(23)
+    2
+    >>> find_steps(27)
+    4
+    >>> find_steps(33)
+    4
+    >>> find_steps(35)
+    4
+    >>> find_steps(39)
+    4
+    >>> find_steps(41)
+    4
+    >>> find_steps(1024)
+    31
+    >>> find_steps(289326)
+    419
+    >>> find_steps(347991)
+    480
+    """
+
     # find the size (columns/rows) of the smallest square which contains n
     size = math.ceil(math.sqrt(n))
     # find biggest number of the square
     m = size * size
-
-    # last cell before bottom row
-    bottom = m - size
-    # last cell before left column
-    left = bottom - (size - 1)
-    # last cell before top row
-    top = left - (size - 1)
-
     # used to calculate position of the cell with 1
     middle = size / 2
+    # first cell bottom row
+    bottom = m - size + 1
 
-    if n > bottom:
-        middle_cell = math.floor(bottom + 1 + middle)
-        if n >= middle_cell:
-            moves = n - middle_cell + math.floor(middle)
-            print("Part 1 (%s): %d" % (n, moves))
-        else:
-            raise NotImplementedError
-    elif n > left:
-        raise NotImplementedError
-    elif n > top:
-        raise NotImplementedError
+    if n >= bottom:
+        middle_cell = math.floor(bottom + middle)
+        return int(abs(n - middle_cell) + math.floor(middle))
     else:
-        raise NotImplementedError
+        middle_cell = math.ceil(bottom - size + middle)
+        return int(abs(n - middle_cell) + math.floor(middle))
 
 
 def print_spiral(grid, n, m):
-    for j in xrange(-m, m+1):
-        print("\t".join(["{0:6}".format(grid[j][i]) for i in xrange(-n, n +1)]))
+    for j in range(-m, m+1):
+        print("\t".join(["{0:6}".format(grid[j][i]) for i in range(-n, n +1)]))
     print()
 
 
@@ -110,8 +131,8 @@ def gen_spiral(n):
 def main():
     path = sys.argv[1] if len(sys.argv) > 1 else None
     _input = int(read_input(path)[0].strip())
-    find_steps(23)
-    find_steps(_input)
+
+    print("Part 1: %d" % find_steps(_input))
     gen_spiral(_input)
 
 
