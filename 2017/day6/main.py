@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 
 import sys
 
+from builtins import range
+
 
 def read_input(path):
     if not path:
@@ -15,30 +17,22 @@ def read_input(path):
 
 
 def process_line(line):
-    return zip(
-        tuple(range(0, 16)),
-        tuple([int(n) for n in line.strip().split('\t')])
-    )
+    return tuple([int(n) for n in line.strip().split('\t')])
 
 
 def execute_step(blocks, m):
-    blocks[m[0]] = (m[0], 0)
-    for j in range(0, m[1]):
-        idx = (m[0] + j + 1) % 16
-        blocks[idx] = (idx, blocks[idx][1] + 1)
+    to_spread, blocks[m] = blocks[m], 0
+    for i in range(to_spread):
+        blocks[(m + i + 1) % len(blocks)] += 1
     return blocks
 
 
 def execute(blocks):
-    i = 0
     seen = []
     while blocks not in seen:
         seen.append(blocks)
-        m = max(blocks, key=lambda x: x[1])
-        blocks = tuple(execute_step(list(blocks), m))
-        i += 1
-
-    return i, blocks
+        blocks = tuple(execute_step(list(blocks), blocks.index(max(blocks))))
+    return len(seen), blocks
 
 
 def main():
