@@ -26,7 +26,7 @@ def process_line(line):
 
 def p1(ps):
     has_parent = set()
-    for (_,_, children) in ps:
+    for (_, _, children) in ps:
         for c in children:
             has_parent.add(c)
     for (name, _, _) in ps:
@@ -38,8 +38,6 @@ def p1(ps):
 def _weight(ps, disc):
     (w, children, _, _) = ps[disc]
     cw = [_weight(ps, c) for c in children]
-    if len(set(cw)) > 2:
-        print(disc, w, children, cw)
     t = w + sum(cw)
     ps[disc] = (w, children, t, cw)
     return t
