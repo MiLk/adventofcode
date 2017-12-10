@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 
 import sys
 
+from builtins import range
+
 
 def read_input(path):
     if not path:
@@ -15,7 +17,7 @@ def read_input(path):
 
 
 def process_line(line):
-    return line
+    return [int(n) for n in line.strip().split('\t')]
 
 
 def p1(line):
@@ -32,10 +34,10 @@ def main():
     lines = map(process_line, lines)
 
     s1 = map(p1, lines)
-    print('Part 1: %d' % s1)
+    print('Part 1:', s1)
 
     s2 = map(p2, lines)
-    print('Part 2: %d' % s2)
+    print('Part 2:', s2)
 
 
 if __name__ == "__main__":
