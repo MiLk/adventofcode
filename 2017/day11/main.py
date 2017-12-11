@@ -37,11 +37,9 @@ def p1(moves):
     for m in moves:
         offset = scores[m]
         pos = (pos[0] + offset[0], pos[1] + offset[1])
-        d = distance(pos)
-        if d > furthest:
-            furthest = d
+        furthest = max(furthest, distance(pos))
 
-    return d, furthest
+    return distance(pos), furthest
 
 
 def main():
