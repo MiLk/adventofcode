@@ -1,0 +1,32 @@
+set b 93 # b = 93
+set c b # c = b
+jnz a 2 # select part
+jnz 1 5 # part 1 only
+mul b 100 # b = b * 100
+sub b -100000 # b = b + 100 000
+set c b # c = b
+sub c -17000 # c = c + 17000
+set f 1 # while True: f = 1
+set d 2 # d = 2
+set e 2 # while True: for e in range(2, b + 1): e = 2
+set g d
+mul g e
+sub g b
+jnz g 2 # if b == e * d:
+set f 0 #   f = 0
+sub e -1 # e += 1
+set g e
+sub g b
+jnz g -8 # while e != b
+sub d -1 # d = d + 1
+set g d
+sub g b
+jnz g -13 # if d != b: continue
+jnz f 2   # if f == 0:
+sub h -1  #   h = h + 1
+set g b
+sub g c
+jnz g 2   # if b == c:
+jnz 1 3   #   return
+sub b -17 # b = b + 17
+jnz 1 -23 # break
