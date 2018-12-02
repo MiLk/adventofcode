@@ -21,3 +21,11 @@ def int_line(line):
 
 def int_list_line(line, sep='\t'):
     return [int(n) for n in line.strip().split(sep)]
+
+
+def str_line(line):
+    return line.strip()
+
+
+def str_list_line(line, sep='\t'):
+    return [n for n in line.strip().split(sep)]
