@@ -2,7 +2,6 @@
 
 import os
 import sys
-from collections import Counter
 
 sys.path.insert(0, os.path.abspath('../..'))
 
@@ -29,11 +28,10 @@ def p1(lines):
 
 
 def p2(lines):
-    c = Counter({
-        i: full_react(lines[0].replace(chr(i), '').replace(chr(i + 32), ''))
+    return min(
+        full_react(lines[0].replace(chr(i), '').replace(chr(i + 32), ''))
         for i in range(ord('A'), ord('Z') + 1)
-    })
-    return c.most_common(50)[-1][1]
+    )
 
 
 if __name__ == "__main__":
