@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import itertools
 import os
 import sys
 
@@ -15,12 +16,11 @@ def p1(lines):
 def p2(lines):
     seen = set()
     f = 0
-    while True:
-        for l in lines:
-            seen.add(f)
-            f += l
-            if f in seen:
-                return f
+    for l in itertools.cycle(lines):
+        seen.add(f)
+        f += l
+        if f in seen:
+            return f
 
 
 if __name__ == "__main__":
