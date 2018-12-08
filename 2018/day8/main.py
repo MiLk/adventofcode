@@ -36,7 +36,7 @@ class Node:
         return sum(
             self.children[i - 1].value()
             for i in self.metadata
-            if i <= len(self.children)
+            if 0 < i <= len(self.children)
         )
 
 
