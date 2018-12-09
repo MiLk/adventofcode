@@ -5,7 +5,7 @@ def read_input():
 
 
 def solve(argv, process_line, p1, p2):
-    text_input = [argv[1]] if len(argv) > 1 else read_input()
+    text_input = argv if len(argv) > 1 else read_input()
     lines = list(map(process_line, text_input))
 
     s1 = p1(lines)
