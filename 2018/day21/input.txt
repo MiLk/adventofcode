@@ -1,0 +1,39 @@
+#ip 5
+
+seti 123 0 2      #  0 - r2 = 123
+bani 2 456 2      #  1 - r2 = r2 & 456       - r2 = 72
+eqri 2 72 2       #  2 - r2 = 1 if r2 == 72
+addr 2 5 5        #  3 - r5 += r2 / go to 5
+seti 0 0 5        #  4 - go to 1             - infinite loop / bani test
+
+seti 0 5 2        #  5 - r2 = 0
+
+bori 2 65536 4    #  6 - r4 = r2 | 65536     - r4 = 65536 (main loop)
+seti 6718165 9 2  #  7 - r2 = 6718165
+
+bani 4 255 3      #  8 - r3 = r4 & 255       - r3 = 0
+addr 2 3 2        #  9 - r2 += r3
+bani 2 16777215 2 # 10 - r2 = r2 & 16777215  - r2 = 6718165
+muli 2 65899 2    # 11 - r2 *= 65899
+bani 2 16777215 2 # 12 - r2 = r2 & 16777215  - r2 = 3179527
+gtir 256 4 3      # 13 - r3 = 1 if 256 > r4
+addr 3 5 5        # 14 - r5 += r3
+addi 5 1 5        # 15 - go to 17 if r4 >= 256
+seti 27 8 5       # 16 - go to 28 if 256 > r4 (outer loop exit)
+seti 0 4 3        # 17 - r3 = 0
+
+addi 3 1 1        # 18 - r1 = r3 + 1
+muli 1 256 1      # 19 - r1 = r1 * 256
+gtrr 1 4 1        # 20 - r1 = 1 if r1 > r4
+addr 1 5 5        # 21 - r5 += r1
+addi 5 1 5        # 22 - goto 24 if r1 <= r4
+seti 25 8 5       # 23 - goto 26 if r1 > r4 (inner loop exit)
+addi 3 1 3        # 24 - r3 += 1
+seti 17 3 5       # 25 - go to 18 (inner loop)
+
+setr 3 6 4        # 26 - r4 = r3
+seti 7 9 5        # 27 - go to 8 (outer loop)
+
+eqrr 2 0 3        # 28 - r3 = 1 if r2 = INPUT
+addr 3 5 5        # 29 - r5 += r3 > exit
+seti 5 1 5        # 30 - go to 6 (main loop)
