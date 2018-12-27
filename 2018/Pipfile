@@ -10,6 +10,9 @@ six = "*"
 future = "*"
 requests = "*"
 jellyfish = "*"
+exrex = "*"
+"z3" = "*"
+"z3-solver" = "*"
 
 [requires]
 python_version = "3"
