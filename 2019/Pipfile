@@ -9,6 +9,7 @@ name = "pypi"
 future = "*"
 requests = "*"
 jellyfish = "*"
+click = "*"
 
 [requires]
 python_version = "3"
