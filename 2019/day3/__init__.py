@@ -1,8 +1,9 @@
-from typing import Tuple, List, Set, Dict
+from typing import Tuple, List, Dict, Iterator
 
-from utils import str_list_lines
 
-parse_input = str_list_lines(',')
+def parse_input(lines: Iterator[str]) -> List[List[Tuple[int, int]]]:
+    return [resolve_path(line.strip().split(",")) for line in lines]
+
 
 directions: Dict[str, Tuple[int, int]] = {
     "U": (0, 1),
@@ -24,14 +25,15 @@ def resolve_path(wire: List[str]) -> List[Tuple[int, int]]:
     return positions
 
 
-def p1(lines: List[List[str]]) -> int:
-    paths = [set(resolve_path(line)) for line in lines]
-    return min([abs(p[0]) + abs(p[1]) for p in paths[0] & paths[1]])
-
-
-def p2(lines: List[List[str]]) -> int:
-    paths = [resolve_path(line) for line in lines]
+def p1(wires: List[List[Tuple[int, int]]]) -> int:
     return min([
-        paths[0].index(p) + paths[1].index(p)
-        for p in set(paths[0]) & set(paths[1])
+        abs(p[0]) + abs(p[1])
+        for p in set(wires[0]) & set(wires[1])
+    ])
+
+
+def p2(wires: List[List[Tuple[int, int]]]) -> int:
+    return min([
+        wires[0].index(p) + wires[1].index(p)
+        for p in set(wires[0]) & set(wires[1])
     ])
