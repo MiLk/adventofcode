@@ -3,11 +3,7 @@ def int_lines(lines):
 
 
 def int_list_lines(sep=None):
-    return lambda lines: [
-        int(n)
-        for line in lines
-        for n in line.strip().split(sep)
-    ]
+    return lambda lines: [[int(n) for n in line.strip().split(sep)] for line in lines]
 
 
 def str_lines(lines):
@@ -15,8 +11,4 @@ def str_lines(lines):
 
 
 def str_list_lines(sep=None):
-    return lambda lines: [
-        c
-        for line in lines
-        for c in line.strip().split(sep)
-    ]
+    return lambda lines: [line.strip().split(sep) for line in lines]
