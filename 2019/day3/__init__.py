@@ -4,39 +4,34 @@ from utils import str_list_lines
 
 parse_input = str_list_lines(',')
 
+directions: Dict[str, Tuple[int, int]] = {
+    "U": (0, 1),
+    "D": (0, -1),
+    "L": (-1, 0),
+    "R": (1, 0),
+}
 
-def resolve_path(wire: List[str]) -> Tuple[Set[Tuple[int, int]], Dict[Tuple[int, int], int]]:
-    positions = set()
-    costs = dict()
+
+def resolve_path(wire: List[str]) -> List[Tuple[int, int]]:
+    positions = []
     x, y = 0, 0
-    c = 0
     for section in wire:
         direction, length = section[0], int(section[1:])
-        for i in range(length):
-            if direction == 'U':
-                y += 1
-            elif direction == 'R':
-                x += 1
-            elif direction == 'D':
-                y -= 1
-            elif direction == 'L':
-                x -= 1
-            c += 1
-            positions.add((x, y))
-            costs[(x, y)] = c
-    return positions, costs
+        for _ in range(length):
+            x += directions[direction][0]
+            y += directions[direction][1]
+            positions.append((x, y))
+    return positions
 
 
 def p1(lines: List[List[str]]) -> int:
-    paths = [resolve_path(line) for line in lines]
-    distances = [abs(p[0]) + abs(p[1]) for p in paths[0][0] & paths[1][0]]
-    return min(distances)
+    paths = [set(resolve_path(line)) for line in lines]
+    return min([abs(p[0]) + abs(p[1]) for p in paths[0] & paths[1]])
 
 
 def p2(lines: List[List[str]]) -> int:
     paths = [resolve_path(line) for line in lines]
-    costs = [
-        paths[0][1][p] + paths[1][1][p]
-        for p in paths[0][0] & paths[1][0]
-    ]
-    return min(costs)
+    return min([
+        paths[0].index(p) + paths[1].index(p)
+        for p in set(paths[0]) & set(paths[1])
+    ])
