@@ -10,6 +10,7 @@ future = "*"
 requests = "*"
 jellyfish = "*"
 click = "*"
+mypy = "*"
 
 [requires]
 python_version = "3"

@@ -9,7 +9,7 @@ class Instruction:
 
 
 class Computer:
-    def __init__(self, memory: List):
+    def __init__(self, memory: List[int]):
         self.__memory = list(memory)
 
         self.__opcodes: Dict[int, Instruction] = {
@@ -17,7 +17,7 @@ class Computer:
             2: Instruction(3, self.__mul),
         }
 
-    def run(self, initialization: List[Tuple]):
+    def run(self, initialization: List[Tuple[int, int]]) -> int:
         for address, value in initialization:
             self.__memory[address] = value
 
@@ -28,11 +28,11 @@ class Computer:
             ip += 1 + instruction.parameters
         return self.__memory[0]
 
-    def __parameters(self, ip, instruction):
+    def __parameters(self, ip: int, instruction: Instruction):
         return self.__memory[ip + 1:ip + 1 + instruction.parameters]
 
-    def __add(self, a, b, c):
+    def __add(self, a: int, b: int, c: int):
         self.__memory[c] = self.__memory[a] + self.__memory[b]
 
-    def __mul(self, a, b, c):
+    def __mul(self, a: int, b: int, c: int):
         self.__memory[c] = self.__memory[a] * self.__memory[b]
