@@ -52,6 +52,23 @@ class Computer:
                 ip += 1 + instruction.parameters
         return self.__memory[0]
 
+    def run_output(self):
+        ip = 0
+        while (opcode_mode := str(self.__memory[ip])) != "99":
+            opcode = int(opcode_mode[-2:])
+            modes = tuple(int(m) for m in opcode_mode[:-2].zfill(2))
+            if not modes:
+                modes = (0, 0)
+            instruction = self.__opcodes[opcode]
+            jump = instruction.fn(*self.__parameters(ip, instruction), modes)
+            if jump:
+                ip = jump
+            else:
+                ip += 1 + instruction.parameters
+            if opcode == 4:
+                yield self.output
+        return None
+
     def __parameters(self, ip: int, instruction: Instruction):
         return self.__memory[ip + 1:ip + 1 + instruction.parameters]
 
@@ -70,7 +87,7 @@ class Computer:
         Opcode 3 takes a single integer as input and saves it to the address given by its only parameter.
         For example, the instruction 3,50 would take an input value and store it at address 50.
         """
-        self.__memory[a] = self.input
+        self.__memory[a] = next(self.input)
 
     def __load(self, a: int, modes):
         """
