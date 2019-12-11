@@ -61,7 +61,7 @@ class Computer:
         ip = 0
         while (opcode_mode := str(self.__memory[ip])) != "99":
             opcode = int(opcode_mode[-2:])
-            modes = tuple(int(m) for m in opcode_mode[:-2].zfill(2))
+            modes = tuple(int(m) for m in opcode_mode[:-2].zfill(3))
             if not modes:
                 modes = (0, 0)
             instruction = self.__opcodes[opcode]
@@ -112,7 +112,6 @@ class Computer:
         For example, the instruction 4,50 would output the value at address 50.
         """
         self.output = self.__value(a, modes[-1])
-        print('out', self.output)
 
     def __jtrue(self, a: int, b: int, modes):
         """
