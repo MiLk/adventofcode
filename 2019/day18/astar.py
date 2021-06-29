@@ -22,17 +22,17 @@ class AStar:
     @abstractmethod
     def heuristic_cost_estimate(self, start, goal):
         """computes the estimated (rough) distance between two random nodes, this method must be implemented in a subclass"""
-        raise NotImplementedException
+        raise NotImplementedError
 
     @abstractmethod
     def distance_between(self, n1, n2):
         """gives the real distance between two adjacent nodes n1 and n2 (i.e n2 belongs to the list of n1's neighbors), this method must be implemented in a subclass"""
-        raise NotImplementedException
+        raise NotImplementedError
 
     @abstractmethod
     def neighbors(self, node):
         """for a given node, returns (or yields) the list of its neighbors. this method must be implemented in a subclass"""
-        raise NotImplementedException
+        raise NotImplementedError
 
     def _yield_path(self, came_from, last):
         yield last
@@ -62,19 +62,15 @@ class AStar:
         f_score = {}
         f_score[start] = self.heuristic_cost_estimate(start, goal)
 
-        p2 = {}
-
         while len(openset) > 0:
             # the node in openset having the lowest f_score[] value
             current = min(f_score, key=f_score.get)
             if goal and current == goal:
-                return self._reconstruct_path(came_from, goal), p2
+                return self._reconstruct_path(came_from, goal)
             openset.discard(current)  # remove current from openset
             del f_score[current]
             closedset.add(current)  # add current to closedset
 
-            if limit and goal and g_score[current] <= limit:
-                p2[current] = g_score[current]
 
             if limit and not goal and g_score[current] >= limit:
                 continue
@@ -91,5 +87,5 @@ class AStar:
                         self.heuristic_cost_estimate(neighbor, goal)
                     openset.add(neighbor)
 
-        return None, g_score
+        return None
 
