@@ -3,7 +3,7 @@ def read_input(strip: bool = True) -> list[str]:
         lines = f.readlines()
     if not strip:
         return lines
-    return [line.strip() for line in lines]
+    return [stripped for line in lines if (stripped := line.strip())]
 
 
 def int_line(line: str) -> int:
