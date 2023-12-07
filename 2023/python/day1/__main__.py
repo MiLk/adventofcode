@@ -1,11 +1,12 @@
 import asyncio
 import re
-from operator import itemgetter
 from typing import Sequence
 
 from utils.file import read_input
 
-DIGITS_RE = re.compile(r"(\d)")
+PART1_DIGITS_RE = re.compile(r"(\d)")
+# https://stackoverflow.com/a/5616910
+PART2_DIGITS_RE = re.compile(r"(?=(\d|one|two|three|four|five|six|seven|eight|nine))")
 
 WORDS = {
     "one": 1,
@@ -20,42 +21,25 @@ WORDS = {
 }
 
 
-def find_digit(line: str) -> tuple[int, int]:
-    first = min(
-        (
-            (word, pos)
-            for word in WORDS.keys() | WORDS.values()
-            if (pos := line.find(str(word))) > -1
-        ),
-        key=itemgetter(1),
-    )[0]
-    second = max(
-        (
-            (word, pos)
-            for word in WORDS.keys() | WORDS.values()
-            if (pos := line.rfind(str(word))) > -1
-        ),
-        key=itemgetter(1),
-    )[0]
-
-    return (
-        first if isinstance(first, int) else WORDS[first],
-        second if isinstance(second, int) else WORDS[second],
-    )
+def str_to_digit(s: str) -> str:
+    if s.isdigit():
+        return s
+    return str(WORDS[s])
 
 
-def concat_first_last_digits(t: Sequence[int]) -> int:
-    return int(f"{t[0]}{t[-1]}")
+def concat_first_last_digits(t: Sequence[str]) -> int:
+    return int("".join(map(str_to_digit, (t[0], t[-1]))))
 
 
-async def main():
+def solve(pattern: re.Pattern[str], lines: Sequence[str]) -> int:
+    return sum(concat_first_last_digits(d) for d in (pattern.findall(line) for line in lines))
+
+
+async def main() -> None:
     lines = read_input()
 
-    digits = (DIGITS_RE.findall(line) for line in lines)
-    print("Part 1:", sum(concat_first_last_digits(d) for d in digits))
-
-    digits = (find_digit(line) for line in lines)
-    print("Part 2:", sum(concat_first_last_digits(d) for d in digits))
+    print("Part 1:", solve(PART1_DIGITS_RE, lines))
+    print("Part 2:", solve(PART2_DIGITS_RE, lines))
 
 
 if __name__ == "__main__":

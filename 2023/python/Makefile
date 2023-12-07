@@ -8,6 +8,7 @@ fetch:
 .PHONY: fetch
 
 lint:
+	python -m isort .
 	python -m black .
 .PHONY: lint
 

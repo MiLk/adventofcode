@@ -3,11 +3,9 @@ import logging
 import os
 import pathlib
 import sys
+from datetime import UTC, datetime
 
 from aiohttp import ClientSession
-
-from datetime import datetime, UTC
-
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -20,11 +18,7 @@ logging.basicConfig(
 def _get_session_id():
     if session_id := os.environ.get("AOC_SESSION_ID"):
         return session_id
-    filepath = os.path.realpath(
-        os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), "..", "session_id.txt"
-        )
-    )
+    filepath = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "session_id.txt"))
     if os.path.exists(filepath):
         with open(filepath, mode="r") as f:
             return next(f, "").strip()
@@ -46,9 +40,7 @@ def _write_file(day, content):
         )
     )
     pathlib.Path(os.path.dirname(filepath)).mkdir(parents=True, exist_ok=True)
-    pathlib.Path(os.path.join(os.path.dirname(filepath), "__init__.py")).touch(
-        exist_ok=True
-    )
+    pathlib.Path(os.path.join(os.path.dirname(filepath), "__init__.py")).touch(exist_ok=True)
     with open(filepath, "w") as f:
         f.write(content)
 
