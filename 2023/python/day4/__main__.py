@@ -39,7 +39,7 @@ class Card:
 
 
 def main() -> None:
-    cards: list[Card] = list(map(Card.from_line, read_input()))
+    cards: list[Card] = list(map(Card.from_line, read_input(__package__)))
     print("Part 1:", sum(c.point_value for c in cards))
 
     for card in cards:

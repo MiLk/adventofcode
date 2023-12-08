@@ -23,7 +23,7 @@ def is_possible_game(draws: GameDraws, load: tuple[int, int, int]) -> bool:
 
 
 async def main() -> None:
-    games: dict[int, GameDraws] = dict(map(parse_line, read_input()))
+    games: dict[int, GameDraws] = dict(map(parse_line, read_input(__package__)))
     print(sum(game_id for game_id, draws in games.items() if is_possible_game(draws, (12, 13, 14))))
 
     print(

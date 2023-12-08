@@ -1,5 +1,5 @@
-def read_input(strip: bool = True) -> list[str]:
-    with open("input.txt") as f:
+def read_input(folder: str, strip: bool = True) -> list[str]:
+    with open(f"{folder}/input.txt") as f:
         lines = f.readlines()
     if not strip:
         return lines

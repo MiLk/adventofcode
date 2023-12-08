@@ -36,7 +36,7 @@ def solve(pattern: re.Pattern[str], lines: Sequence[str]) -> int:
 
 
 async def main() -> None:
-    lines = read_input()
+    lines = read_input(__package__)
 
     print("Part 1:", solve(PART1_DIGITS_RE, lines))
     print("Part 2:", solve(PART2_DIGITS_RE, lines))

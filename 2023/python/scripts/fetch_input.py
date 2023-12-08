@@ -41,6 +41,7 @@ def _write_file(day, content):
     )
     pathlib.Path(os.path.dirname(filepath)).mkdir(parents=True, exist_ok=True)
     pathlib.Path(os.path.join(os.path.dirname(filepath), "__init__.py")).touch(exist_ok=True)
+    pathlib.Path(os.path.join(os.path.dirname(filepath), "__main__.py")).touch(exist_ok=True)
     with open(filepath, "w") as f:
         f.write(content)
 

@@ -12,7 +12,7 @@ def is_adjacent_to_symbol(chars: set[tuple[int, int]], ln: int, start: int, end:
 
 
 def main() -> None:
-    lines = read_input()
+    lines = read_input(__package__)
     size = len(lines)
 
     chars: set[tuple[int, int]] = {(i, j) for i in range(size) for j in range(size) if lines[i][j] not in "0123456789."}
