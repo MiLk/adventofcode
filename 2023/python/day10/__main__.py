@@ -44,14 +44,28 @@ def main() -> None:
     current = start
     previous: tuple[int, int] | None = None
     distance = 0
-    path = []
+    path = set()
     while not distance or current != start:
-        path.append(current)
+        path.add(current)
         previous, current = current, get_next_tile(lines, current, previous)
         distance += 1
 
     assert distance == 13734
     print("Part 1:", distance // 2)
+
+    height = len(lines)
+    width = len(lines[0])
+
+    enclosed = 0
+    for r in range(height):
+        inside = False
+        for c in range(width):
+            if (r, c) in path:
+                if lines[r][c] in "|JLS":
+                    inside = not inside
+            else:
+                enclosed += int(inside)
+    print("Part 2:", enclosed)
 
 
 if __name__ == "__main__":
