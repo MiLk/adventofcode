@@ -1,0 +1,4 @@
+aiohttp
+black
+isort
+mypy
