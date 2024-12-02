@@ -12,18 +12,19 @@ def is_safe(levels: list[int]) -> bool:
 
 
 def is_safe_with_dampener(levels: list[int]) -> bool:
-    size = len(levels)
     if is_safe(levels):
         return True
 
+    size = len(levels)
     return any(is_safe(levels[:i] + levels[i + 1 :]) for i in range(size))
 
 
 def main() -> None:
     lines = [int_list_line(l, " ") for l in read_input(__package__)]
-    safe_reports = list(filter(is_safe, lines))
 
+    safe_reports = list(filter(is_safe, lines))
     print("Part 1:", len(safe_reports))
+
     safe_reports_with_dampener = list(filter(is_safe_with_dampener, lines))
     print("Part 2:", len(safe_reports_with_dampener))
 
