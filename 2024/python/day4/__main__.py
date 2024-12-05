@@ -1,4 +1,3 @@
-import re
 from itertools import product
 
 from utils.file import read_input
