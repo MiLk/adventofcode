@@ -8,19 +8,17 @@ start = next((i, line.index("^")) for i, line in enumerate(lines) if "^" in line
 
 obstacles = {complex(i, j) for i, line in enumerate(lines) for j, c in enumerate(line) if c == "#"}
 
-directions = [-1, 1j, 1, -1j]
-
 
 def walk(pos: complex, obstacles_: set[complex]) -> tuple[set[complex], bool]:
-    direction = 0
+    direction = complex(-1)
     path: set[complex] = {pos}
-    visited: set[tuple[complex, int]] = {(pos, direction)}
+    visited: set[tuple[complex, complex]] = {(pos, direction)}
     while True:
-        new_pos = pos + directions[direction]
+        new_pos = pos + direction
         if not (0 <= new_pos.real < height and 0 <= new_pos.imag < width):
             break
         if new_pos in obstacles_:
-            direction = (direction + 1) % 4
+            direction *= -1j
             continue
         if (new_pos, direction) in visited:
             return path, True
