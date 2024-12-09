@@ -1,10 +1,10 @@
-from math import floor
 from collections import OrderedDict
-
+from math import floor
 
 from utils.file import read_input
 
 disk_map = list(map(int, read_input(__package__)[0]))
+
 
 def p1() -> int:
     uncompressed_disk_map: list[str] = []
@@ -23,25 +23,21 @@ def p1() -> int:
     if size < 100:
         print("".join(uncompressed_disk_map))
 
-
     while True:
         free_space = next(i for i in range(size) if uncompressed_disk_map[i] == ".")
         last_character = next(size - i for i in range(1, size) if uncompressed_disk_map[size - i].isdigit())
         if free_space > last_character:
             break
-        uncompressed_disk_map[free_space], uncompressed_disk_map[last_character] = uncompressed_disk_map[last_character], uncompressed_disk_map[free_space]
+        uncompressed_disk_map[free_space], uncompressed_disk_map[last_character] = (
+            uncompressed_disk_map[last_character],
+            uncompressed_disk_map[free_space],
+        )
 
-    return sum(
-        i * int(n)
-        for i, n in enumerate(uncompressed_disk_map)
-        if n != "."
-    )
+    return sum(i * int(n) for i, n in enumerate(uncompressed_disk_map) if n != ".")
+
 
 def p2() -> int:
-    files = OrderedDict({
-        i: disk_map[i * 2]
-        for i in range(floor((len(disk_map) + 1) / 2))
-    })
+    files = OrderedDict({i: disk_map[i * 2] for i in range(floor((len(disk_map) + 1) / 2))})
 
     reordered: list[tuple[int, int]] = []
     for i in range(floor((len(disk_map) + 1) / 2)):
@@ -72,24 +68,15 @@ def p2() -> int:
         if free > 0:
             reordered.append((-1, free))
 
-    reordered_disk_map = ""
+    reordered_disk_map: list[str] = []
     for idx, length in reordered:
-        if idx == -1:
-            reordered_disk_map += "." * length
-        else:
-            reordered_disk_map += str(idx) * length
+        for _ in range(length):
+            reordered_disk_map.append(str(idx) if idx != -1 else ".")
 
     if len(reordered_disk_map) < 100:
-        print(reordered_disk_map)
-    return sum(
-        i * int(n)
-        for i, n in enumerate(reordered_disk_map)
-        if n != "."
-    )
+        print("".join(reordered_disk_map))
+    return sum(i * int(n) for i, n in enumerate(reordered_disk_map) if n != ".")
 
 
-#print("Part 1:", p1())
-
-# 84975570147 too low
+print("Part 1:", p1())
 print("Part 2:", p2())
-
