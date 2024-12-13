@@ -4,6 +4,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 
 from more_itertools.more import chunked
+from sympy import Eq, solve, symbols
 
 from utils.file import read_input
 
@@ -31,6 +32,20 @@ def parse_machine(button_a: str, button_b: str, prize: str) -> Machine:
 def find_solution(machine: Machine) -> Iterable[tuple[int, int]]:
     a, b, p = machine.button_a, machine.button_b, machine.prize
 
+    x, y = symbols("x, y")
+    eqs = [Eq(a[i] * x + b[i] * y, p[i]) for i in range(2)]
+    for solution in solve(eqs, dict=True):
+        if solution[x].is_Integer and solution[y].is_Integer:
+            yield solution[x], solution[y]
+
+
+# I initially came up with the sympy solution for p1, because I was too lazy to think about a fast way to do it.
+# I had a typo when trying to solve part 2, which leads me to rethink the whole thing,
+# and after I came up with this new faster algorithm,
+# I realized I had a typo in the value to add to the prize position.
+def find_solution_fast(machine: Machine) -> Iterable[tuple[int, int]]:
+    a, b, p = machine.button_a, machine.button_b, machine.prize
+
     max_iterations = min(p[0] // a[0], p[1] // a[1])
     for i in range(max_iterations + 1):
         target = (p[0] - a[0] * (max_iterations - i)), (p[1] - a[1] * (max_iterations - i))
@@ -44,7 +59,7 @@ def find_solution(machine: Machine) -> Iterable[tuple[int, int]]:
 
 machines = [parse_machine(*block) for block in chunked(read_input(__package__), 3)]
 
-solutions = [(machine, list(find_solution(machine))) for machine in machines]
+solutions = [(machine, list(find_solution_fast(machine))) for machine in machines]
 
 print("Part1:", sum(min(a * 3 + b for a, b in solutions_) for machine, solutions_ in solutions if solutions_))
 
