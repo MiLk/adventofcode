@@ -31,13 +31,14 @@ def parse_machine(button_a: str, button_b: str, prize: str) -> Machine:
 def find_solution(machine: Machine) -> Iterable[tuple[int, int]]:
     a, b, p = machine.button_a, machine.button_b, machine.prize
 
-    for i in range(min(p[0] // a[0], p[1] // a[1]) + 1):
-        target = (p[0] - a[0] * i), (p[1] - a[1] * i)
+    max_iterations = min(p[0] // a[0], p[1] // a[1])
+    for i in range(max_iterations + 1):
+        target = (p[0] - a[0] * (max_iterations - i)), (p[1] - a[1] * (max_iterations - i))
         if target[0] % b[0] == 0 and target[1] % b[1] == 0:
             j = target[0] // b[0]
             k = target[1] // b[1]
             if j == k:
-                yield i, j
+                yield (max_iterations - i), j
                 continue
 
 
@@ -48,7 +49,7 @@ solutions = [(machine, list(find_solution(machine))) for machine in machines]
 print("Part1:", sum(min(a * 3 + b for a, b in solutions_) for machine, solutions_ in solutions if solutions_))
 
 machines_p2 = [
-    dataclasses.replace(m, prize=(m.prize[0] + 110000000000000, m.prize[1] + 10000000000000)) for m in machines
+    dataclasses.replace(m, prize=(m.prize[0] + 10000000000000, m.prize[1] + 10000000000000)) for m in machines
 ]
 solutions = [(machine, list(find_solution(machine))) for machine in machines_p2]
 
