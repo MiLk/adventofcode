@@ -57,15 +57,29 @@ def find_solution_fast(machine: Machine) -> Iterable[tuple[int, int]]:
                 continue
 
 
+# This is something I wrote after looking at how other people solved the problem.
+def find_solution_cramers_rule(machine: Machine) -> Iterable[tuple[int, int]]:
+    a, b, p = machine.button_a, machine.button_b, machine.prize
+
+    # a0 * x + b0 * y = p0
+    # a1 * x + b1 * y = p1
+    # https://en.wikipedia.org/wiki/Cramer%27s_rule
+    det = a[0] * b[1] - a[1] * b[0]
+    x = (p[0] * b[1] - p[1] * b[0]) / det
+    y = (a[0] * p[1] - a[1] * p[0]) / det
+    if x.is_integer() and y.is_integer():
+        yield int(x), int(y)
+
+
 machines = [parse_machine(*block) for block in chunked(read_input(__package__), 3)]
 
-solutions = [(machine, list(find_solution_fast(machine))) for machine in machines]
+solutions = [(machine, list(find_solution_cramers_rule(machine))) for machine in machines]
 
 print("Part1:", sum(min(a * 3 + b for a, b in solutions_) for machine, solutions_ in solutions if solutions_))
 
 machines_p2 = [
     dataclasses.replace(m, prize=(m.prize[0] + 10000000000000, m.prize[1] + 10000000000000)) for m in machines
 ]
-solutions = [(machine, list(find_solution(machine))) for machine in machines_p2]
+solutions = [(machine, list(find_solution_cramers_rule(machine))) for machine in machines_p2]
 
 print("Part2:", sum(min(a * 3 + b for a, b in solutions_) for machine, solutions_ in solutions if solutions_))
