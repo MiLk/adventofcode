@@ -1,11 +1,11 @@
-from collections.abc import Iterable, Container
-from heapq import heappush, heappop
+from collections.abc import Container, Iterable
+from heapq import heappop, heappush
 
-from utils.file import read_input, int_list_line
+from utils.file import int_list_line, read_input
 
-falling_bytes = [complex(x,y) for x,y in (int_list_line(line, ",") for line in read_input(__package__))]
+falling_bytes = [complex(x, y) for x, y in (int_list_line(line, ",") for line in read_input(__package__))]
 start = 0j
-goal = 70+70j if len(falling_bytes) > 50 else 6+6j
+goal = 70 + 70j if len(falling_bytes) > 50 else 6 + 6j
 
 
 def astar(corruption_size: int) -> int:
@@ -21,8 +21,8 @@ def astar(corruption_size: int) -> int:
         return int(abs(current.real - goal.real) + abs(current.imag - goal.imag))
 
     best_score = None
-    visited = {}
-    h = []
+    visited: set[complex] = set()
+    h: list = []
     heappush(h, (0, 0, (start.real, start.imag)))
 
     while h:
@@ -32,10 +32,19 @@ def astar(corruption_size: int) -> int:
             continue
         if node == goal:
             return score
-        visited[node] = score if node not in visited else min(score, visited[node])
+        visited.add(node)
         for neighbor in neighbors(node):
             new_score = score + 1
             heappush(h, (new_score + heuristic(neighbor), new_score, (neighbor.real, neighbor.imag)))
     raise RuntimeError("No path found")
 
+
 print("Part 1:", astar(1024))
+
+for i in range(1024, len(falling_bytes)):
+    try:
+        astar(i + 1)
+    except RuntimeError:
+        node = falling_bytes[i]
+        print(f"Part 2: {int(node.real)},{int(node.imag)}")
+        break
