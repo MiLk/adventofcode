@@ -1,4 +1,4 @@
-from collections.abc import Container, Iterable
+from collections.abc import Iterable
 from heapq import heappop, heappush
 
 from utils.file import int_list_line, read_input
@@ -20,7 +20,6 @@ def astar(corruption_size: int) -> int:
     def heuristic(current: complex) -> int:
         return int(abs(current.real - goal.real) + abs(current.imag - goal.imag))
 
-    best_score = None
     visited: set[complex] = set()
     h: list = []
     heappush(h, (0, 0, (start.real, start.imag)))
