@@ -1,0 +1,35 @@
+[project]
+name = "adventofcode"
+version = "0.1.0"
+description = "Advent of Code 2025"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiohttp>=3.13.2",
+    "more-itertools>=10.8.0",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.black]
+line_length = 120
+
+[tool.ruff]
+line-length = 120
+lint.select = [
+  "F",   # pyflakes
+  "PLE", # pylint errors
+  "UP",  # pyupgrade
+]
+lint.fixable = [
+  "F",   # pyflakes
+  "PLE", # pylint errors
+  "UP",  # pyupgrade
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+]
