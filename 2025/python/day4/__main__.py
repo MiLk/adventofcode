@@ -14,7 +14,6 @@ def _accessible_rolls(rolls: set[tuple[int, int]]) -> Iterable[tuple[int, int]]:
 
 def main() -> None:
     lines = read_input(__package__)
-    height, width = len(lines), len(lines[0])
     rolls = set()
     for y, line in enumerate(lines):
         for x, c in enumerate(line):
